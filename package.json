@@ -8,8 +8,8 @@
   "exports": "./dist/src/main.js",
   "type": "module",
   "engines": {
-    "node": ">=18.11.0",
-    "npm": ">=8.19.2"
+    "node": ">=19.0.0", 
+    "npm": ">=9.0.0"
   },
   "scripts": {
     "build": "echo '\"npm build\" fuer \"npm pack\": Uebersetzte Dateien aus dem Verzeichnis dist werden uebernommen, siehe project.toml'",
