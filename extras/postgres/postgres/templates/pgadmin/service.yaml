@@ -1,0 +1,15 @@
+#  "." am Anfang bezeichnet den Top-Level Namensraum
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.pgadmin.name }}
+  labels:
+    {{- include "pgadmin.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "pgadmin.selectorLabels" . | nindent 4 }}
+  ports:
+    - port: 80
+      name: {{ .Values.pgadmin.name }}-svc
+      targetPort: {{ .Values.pgadmin.name }}

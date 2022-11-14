@@ -1,0 +1,11 @@
+#  "." am Anfang bezeichnet den Top-Level Namensraum
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.pgadmin.name }}
+data:
+  TZ: Europe/Berlin
+  PGTZ: Europe/Berlin
+  LANG: de_DE.utf8
+  PGADMIN_DEFAULT_EMAIL: {{ .Values.pgadmin.email }}

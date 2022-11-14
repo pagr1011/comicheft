@@ -1,0 +1,20 @@
+' Preview durch <Alt>d
+
+@startuml Use Cases
+
+actor Gast
+actor Admin
+actor Kunde
+
+rectangle comicheft {
+    Gast --> (Comicheft suchen)
+    Admin --> (Comicheft suchen)
+    Admin --> (Comicheft anlegen)
+    Admin --> (Comicheft ändern)
+    Admin --> (Comicheft löschen)
+    Kunde --> (Comicheft suchen)
+    Kunde --> (Comicheft anlegen)
+    Kunde --> (Comicheft ändern)
+}
+
+@enduml

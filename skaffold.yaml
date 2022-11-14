@@ -1,0 +1,50 @@
+# Aufruf:   i.a. bereits eingestellt:   $env:SKAFFOLD_PROFILE = 'dev'
+#                                       $env:TAG = '1.0.0'
+#           skaffold dev
+#           skaffold delete
+
+# https://skaffold.dev/docs/references/yaml
+
+apiVersion: skaffold/v3
+kind: Config
+metadata:
+  name: comicheft
+# https://skaffold.dev/docs/pipeline-stages/builders
+#build:
+#  artifacts:
+#    - image: juergenzimmermann/comicheft
+#      # https://skaffold.dev/docs/pipeline-stages/builders/buildpacks
+#      buildpacks:
+#        builder: paketobuildpacks/builder:base
+#        dependencies:
+#          paths: [src/**, package.json]
+#  # https://skaffold.dev/docs/pipeline-stages/taggers
+#  tagPolicy:
+#    envTemplate:
+#      template: "{{.TAG}}"
+deploy:
+  # https://skaffold.dev/docs/pipeline-stages/deployers/helm
+  # Alternativen: Kustomize, kpt, kubectl
+  helm:
+    releases:
+      - name: comicheft
+        chartPath: extras/comicheft
+        valuesFiles: [extras/comicheft/values.yaml]
+        namespace: acme
+# https://skaffold.dev/docs/environment/profiles
+profiles:
+  - name: dev
+    activation:
+      - env: SKAFFOLD_PROFILE=dev
+    deploy:
+      helm:
+        releases:
+          - name: comicheft
+            chartPath: extras/comicheft
+            valuesFiles: [extras/comicheft/values.yaml, extras/comicheft/dev.yaml]
+            namespace: acme
+    # https://skaffold.dev/docs/pipeline-stages/port-forwarding
+    portForward:
+      - resourceType: service
+        resourceName: comicheft
+        port: 3000

@@ -1,0 +1,4 @@
+---
+default: true
+# no-bare-urls
+MD034: false

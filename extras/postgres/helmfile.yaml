@@ -1,0 +1,10 @@
+# Aufruf:   helmfile apply
+#               zzgl. Port-Forwarding fuer pgadmin durch port-forward.ps1
+#           helmfile destroy
+
+releases:
+  - name: postgres
+    namespace: acme
+    chart: postgres
+    values: [postgres/dev.yaml]
+    wait: true

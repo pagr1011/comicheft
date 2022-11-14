@@ -1,0 +1,46 @@
+// https://jestjs.io/docs/configuration
+// https://kulshekhar.github.io/ts-jest/docs/guides/esm-support
+// https://github.com/BenSjoberg/nest-esm-import-issue-example
+
+import { type Config } from '@jest/types';
+
+const jestConfig: Config.InitialOptions = {
+    // Verzeichnis in node_modules mit einer Datei jest-preset.js
+    // https://kulshekhar.github.io/ts-jest/docs/next/guides/esm-support
+    // https://kulshekhar.github.io/ts-jest/docs/getting-started/presets
+    // https://jestjs.io/docs/getting-started#via-ts-jest
+    preset: 'ts-jest/presets/default-esm',
+
+    extensionsToTreatAsEsm: ['.ts', '.mts', '.json'],
+    moduleNameMapper: {
+        '^(\\.{1,2}/.*)\\.m?js$': '$1', // eslint-disable-line @typescript-eslint/naming-convention
+    },
+
+    transform: {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        '\\.test\\.m?ts$': [
+            'ts-jest',
+            {
+                useESM: true,
+            },
+        ],
+    },
+
+    testRegex: '__tests__\\.*\\\\.*test\\.m?ts$',
+    collectCoverageFrom: ['<rootDir>/src/**/*.*ts'],
+    // coverageDirectory: 'coverage',
+    testEnvironment: 'node',
+
+    bail: true,
+    coveragePathIgnorePatterns: [
+        '<rootDir>/src/main\\.m?ts$',
+        '.*\\.module\\.m?ts$',
+        '<rootDir>/src/health/',
+    ],
+    coverageReporters: ['text-summary', 'html'],
+    errorOnDeprecated: true,
+    testTimeout: 10_000,
+    verbose: true,
+};
+
+export default jestConfig;

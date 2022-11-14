@@ -1,0 +1,21 @@
+#  "." am Anfang bezeichnet den Top-Level Namensraum
+
+apiVersion: networking.k8s.io/v1
+# https://kubernetes.io/docs/concepts/services-networking/network-policies
+kind: NetworkPolicy
+metadata:
+  name: {{ .Values.pgadmin.name }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "pgadmin.labels" . | nindent 6 }}
+  policyTypes: [Ingress, Egress]
+  ingress: []
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              {{- include "postgres.selectorLabels" . | nindent 14 }}
+      ports:
+        - port: {{ .Chart.Name }}
+          protocol: TCP

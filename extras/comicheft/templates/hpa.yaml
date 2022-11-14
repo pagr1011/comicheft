@@ -1,0 +1,31 @@
+{{- if .Values.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+# https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale
+# automatische Skalierung fuer die Anzahl der Pods basierend auf der CPU-Auslastung oder durch Metriken, die von der
+# Anwendung bereitgestellt werden
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "comicheft.fullname" . }}
+  labels:
+    {{- include "comicheft.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "comicheft.fullname" . }}
+  minReplicas: {{ .Values.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.autoscaling.maxReplicas }}
+  metrics:
+    {{- if .Values.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ .Values.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if .Values.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ .Values.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}

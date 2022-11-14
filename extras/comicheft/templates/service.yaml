@@ -1,0 +1,25 @@
+apiVersion: v1
+# https://kubernetes.io/docs/concepts/services-networking/connect-applications-service
+# https://kubernetes.io/docs/concepts/services-networking/service
+kind: Service
+metadata:
+  # 60+ Template Functions: Go Templates, Sprig Template Library, include, required
+  # https://helm.sh/docs/chart_template_guide/functions_and_pipelines
+  # https://godoc.org/text/template
+  # https://masterminds.github.io/sprig
+  name: {{ include "comicheft.fullname" . }}
+  labels:
+    # https://helm.sh/docs/chart_template_guide/function_list
+    # nindent rueckt um eine bestimmte Anzahl ("n") Zeichen ein
+    {{- include "comicheft.labels" . | nindent 4 }}
+spec:
+  # Selektion der Pods fuer eingehende Requests
+  selector: {{- include "comicheft.selectorLabels" . | nindent 4 }}
+  ports:
+    - port: {{ .Values.servicePort }}
+      name: http-svc
+      targetPort: http
+      # https://kubernetes.io/docs/concepts/services-networking/service/#protocol-support
+      #protocol: TCP
+  # https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+  #type: ClusterIP

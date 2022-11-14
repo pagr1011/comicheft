@@ -1,0 +1,10 @@
+# Aufruf:   helmfile apply
+#               zzgl. Port-Forwarding
+#           helmfile destroy
+
+releases:
+  - name: comicheft
+    namespace: acme
+    chart: extras/comicheft
+    values: [extras/comicheft/dev.yaml]
+    #wait: true

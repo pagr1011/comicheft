@@ -1,0 +1,6 @@
+---
+ignores:
+  - '@types/*'
+  - chai*
+  - copyfiles
+  - ejs-lint

@@ -1,0 +1,13 @@
+# disruption = Störung
+
+apiVersion: policy/v1
+# https://kubernetes.io/docs/tasks/run-application/configure-pdb
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "comicheft.fullname" . }}
+  labels: {{- include "comicheft.labels" . | nindent 4 }}
+spec:
+  # minAvailable: 1
+  maxUnavailable: 1
+  selector:
+    matchLabels: {{- include "comicheft.selectorLabels" . | nindent 6 }}

@@ -1,0 +1,99 @@
+//
+// N e t z w e r k   -   V e r b i n d u n g   n o t w e n d i g
+//
+
+// siehe auch https://studio.apollographql.com/sandbox/explorer
+
+### Suche id, titel, art und version von allen Comicheften
+POST {{graphQlUrl}}
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+{
+  comichefte {
+    id
+    titel
+    art
+    version
+  }
+}
+
+### Suche titel, art, isbn und version von einem Comicheft mit vorhandener Comicheft-ID
+POST {{graphQlUrl}}
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query ($id: ID! = "00000000-0000-0000-0000-000000000001") {
+  comicheft(id: $id) {
+    titel
+    art
+    isbn
+    version
+  }
+}
+
+{
+  "id": "00000000-0000-0000-0000-000000000001"
+}
+
+### Suche titel von einem Comicheft mit nicht-vorhandener Comicheft-ID
+POST {{graphQlUrl}}
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query ($id: ID! = "99999999-9999-9999-9999-999999999999") {
+  comicheft(id: $id) {
+    titel
+  }
+}
+
+{
+  "id": "99999999-9999-9999-9999-999999999999"
+}
+
+### Suche art von Comicheften mit vorhandenem Titel
+POST {{graphQlUrl}}
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query ($titel: String = "Alpha") {
+  comichefte(titel: $titel) {
+    art
+  }
+}
+
+{
+  "titel": "Alpha"
+}
+
+### Suche titel, art und schlagwoerter von Comicheften mit vorhandenem Titel
+POST {{graphQlUrl}}
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query ($titel: String = "a") {
+  comichefte(titel: $titel) {
+    titel
+    art
+    schlagwoerter
+  }
+}
+
+{
+  "titel": "a"
+}
+
+### Suche art von Comicheften mit NICHT-vorhandenem Titel
+POST {{graphQlUrl}}
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query ($titel: String = "Nichtvorhanden") {
+  comichefte(titel: $titel) {
+    art
+  }
+}
+
+{
+  "titel": "Nichtvorhanden"
+}

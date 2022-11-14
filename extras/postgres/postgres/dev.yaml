@@ -1,0 +1,23 @@
+# # https://www.base64decode.org
+password: cA==
+
+resourcesRequests:
+  cpu: 200m
+  memory: 64Mi
+resourcesLimits:
+  cpu: 250m
+  memory: 128Mi
+
+liveness:
+  initialDelay: 10
+  timeout: 5
+  period: 20
+  failureThreshold: 2
+readiness:
+  initialDelay: 10
+  timeout: 5
+  period: 20
+  failureThreshold: 2
+
+autoscaling:
+  enabled: false

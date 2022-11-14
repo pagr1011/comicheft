@@ -1,0 +1,34 @@
+# https://kubernetes.io/docs/concepts/services-networking/ingress/
+# https://github.com/kubernetes/ingress-nginx
+# https://kubernetes.io/docs/concepts/services-networking/ingress-controllers
+# https://github.com/kubernetes/ingress-nginx/blob/main/README.md#changelog Versionen von nginx
+# https://kubernetes.github.io/ingress-nginx/examples/rewrite
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.namespace }}-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  namespace: {{ .Values.namespace }}
+spec:
+  ingressClassName: nginx
+  rules:
+    # kubernetes.docker.internal entspricht localhost. Siehe C:\Windows\System32\drivers\etc\hosts
+    - host: kubernetes.docker.internal
+      http:
+        paths:
+          # (.*) wird abgebildet auf $2 (d.h. 2. Pfad-Segment), z.B.
+          #   kubernetes.docker.internal/comichefte wird zu kubernetes.docker.internal:3000/
+          #   kubernetes.docker.internal/comichefte/123 wird zu kubernetes.docker.internal:3000/123
+          - path: /comichefte(/|$)(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ include "comicheft.fullname" . }}
+                port:
+                  name: http-svc
+                  #number: 3000
+  tls:
+    - hosts: [kubernetes.docker.internal]
+      secretName: {{ .Values.namespace }}-tls

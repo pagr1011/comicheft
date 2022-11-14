@@ -1,0 +1,35 @@
+# Aufruf:   i.a. bereits eingestellt:   $env:SKAFFOLD_PROFILE = 'dev'
+#           skaffold dev
+#           skaffold delete
+
+apiVersion: skaffold/v3alpha1
+kind: Config
+metadata:
+  name: postgres
+deploy:
+  helm:
+    releases:
+      - name: postgres
+        chartPath: postgres
+        valuesFiles: [postgres/values.yaml]
+        namespace: acme
+profiles:
+  - name: dev
+    activation:
+      - env: SKAFFOLD_PROFILE=dev
+    deploy:
+      helm:
+        releases:
+          - name: postgres
+            chartPath: postgres
+            valuesFiles: [postgres/values.yaml, postgres/dev.yaml]
+            namespace: acme
+    portForward:
+      - resourceType: service
+        resourceName: postgres
+        port: postgres-svc
+        localPort: 5432
+      - resourceType: service
+        resourceName: pgadmin
+        port: pgadmin-svc
+        localPort: 8888
