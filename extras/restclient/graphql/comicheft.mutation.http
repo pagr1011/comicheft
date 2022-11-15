@@ -1,51 +1,6 @@
-//
-// N e t z w e r k   -   V e r b i n d u n g   n o t w e n d i g
-//
-
-### Einloggen in der Rolle "admin", "mitarbeiter" und "kunde"
-// @name login
-POST {{graphQlUrl}}
-Content-Type: application/json
-X-REQUEST-TYPE: GraphQL
-
-mutation {
-  login(username: "admin", password: "p") { token expiresIn roles }
-}
-
-### Einloggen in der Rolle "mitarbeiter" und "kunde"
-// @name login
-POST {{graphQlUrl}}
-Content-Type: application/json
-X-REQUEST-TYPE: GraphQL
-
-mutation {
-  login(username: "alfred.alpha", password: "p") { token expiresIn roles }
-}
-
-### Einloggen in der Rolle "kunde"
-// @name login
-POST {{graphQlUrl}}
-Content-Type: application/json
-X-REQUEST-TYPE: GraphQL
-
-mutation {
-  login(username: "dirk.delta", password: "p") { token expiresIn roles }
-}
-
-### Einloggen mit falschem Passwort
-// @name login
-POST {{graphQlUrl}}
-Content-Type: application/json
-X-REQUEST-TYPE: GraphQL
-
-mutation {
-  login(username: "admin", password: "FALSCH") { token expiresIn roles }
-}
-
 ### Neues Comicheft anlegen
 POST {{graphQlUrl}}
 Content-Type: application/json
-Authorization: Bearer {{login.response.body.$.data.login.token}}
 X-REQUEST-TYPE: GraphQL
 
 mutation {
@@ -55,7 +10,7 @@ mutation {
       rating: 1,
       art: KINDLE,
       verlag: ZEIT_VERLAG,
-      preis: 99.9,
+      preis: 5.9,
       rabatt: 0.1,
       lieferbar: true,
       datum: "2022-01-31",
@@ -69,7 +24,6 @@ mutation {
 ### Neues Comicheft mit ungueltigen Daten anlegen
 POST {{graphQlUrl}}
 Content-Type: application/json
-Authorization: Bearer {{login.response.body.$.data.login.token}}
 X-REQUEST-TYPE: GraphQL
 
 mutation {
@@ -88,89 +42,4 @@ mutation {
       schlagwoerter: ["JAVASCRIPT"]
     }
   )
-}
-
-### Vorhandenes Comicheft aktualisieren
-POST {{graphQlUrl}}
-Content-Type: application/json
-Authorization: Bearer {{login.response.body.$.data.login.token}}
-X-REQUEST-TYPE: GraphQL
-
-mutation {
-  update(
-    input: {
-      id: "00000000-0000-0000-0000-000000000003",
-      version: 0,
-      titel: "Geaendertgraphql",
-      rating: 5,
-      art: DRUCKAUSGABE,
-      verlag: ZEIT_VERLAG,
-      preis: 99.99,
-      rabatt: 0.099,
-      lieferbar: false,
-      datum: "2022-02-01",
-      isbn: "9780201633610",
-      homepage: "https://test.graphql/"
-    }
-  )
-}
-
-### Vorhandenes Comicheft mit ungueltigen Werten aktualisieren
-POST {{graphQlUrl}}
-Content-Type: application/json
-Authorization: Bearer {{login.response.body.$.data.login.token}}
-X-REQUEST-TYPE: GraphQL
-
-mutation {
-  update(
-    input: {
-      id: "00000000-0000-0000-0000-000000000003",
-      version: 0,
-      titel: "?!$",
-      rating: 999,
-      art: KINDLE,
-      verlag: ZEIT_VERLAG,
-      preis: -999,
-      rabatt: 999,
-      lieferbar: false,
-      datum: "123",
-      isbn: "123",
-      homepage: "?!$"
-    }
-  )
-}
-
-### Nicht-Vorhandenes Comicheft aktualisieren
-POST {{graphQlUrl}}
-Content-Type: application/json
-Authorization: Bearer {{login.response.body.$.data.login.token}}
-X-REQUEST-TYPE: GraphQL
-
-mutation {
-  update(
-    input: {
-      id: "99999999-9999-9999-9999-999999999999",
-      version: 0,
-      titel: "Nichtvorhanden",
-      rating: 5,
-      art: DRUCKAUSGABE,
-      verlag: ZEIT_VERLAG,
-      preis: 99.99,
-      rabatt: 0.099,
-      lieferbar: false,
-      datum: "2022-02-01",
-      isbn: "9780201633610",
-      homepage: "https://test.de/"
-    }
-  )
-}
-
-### Vorhandenes Comicheft loeschen
-POST {{graphQlUrl}}
-Content-Type: application/json
-Authorization: Bearer {{login.response.body.$.data.login.token}}
-X-REQUEST-TYPE: GraphQL
-
-mutation {
-  delete(id: "00000000-0000-0000-0000-000000000060")
 }
