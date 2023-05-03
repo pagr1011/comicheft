@@ -1,0 +1,46 @@
+' Preview durch <Alt>d
+
+@startuml ER Diagramm
+
+' hide the spot
+hide circle
+
+' evtl. Prbleme mit Kraehenfuessen vermeiden
+skinparam linetype ortho
+
+entity "Comicheft" {
+  *id : integer <<generated>>
+  --
+  *version: integer
+  *isbn: text
+  *rating: number
+  *art: text
+  *preis: number
+  *rabatt: number
+  *lieferbar: boolean
+  datum: date
+  homepage: text
+  schlagwoerter: text
+  *erzeugt: timestamp
+  *aktualisiert: timestamp
+}
+
+entity "Titel" {
+  *id : integer <<generated>>
+  --
+  *titel : text
+  untertitel: text
+  *comicheft_id : integer <<FK>>
+}
+
+entity "Abbildung" {
+  *id : integer <<generated>>
+  --
+  *beschriftung : text
+  contentType: text
+  *comicheft_id : integer <<FK>>
+}
+
+Comicheft ||..|| Titel
+Comicheft ||..o{ Abbildung
+@enduml

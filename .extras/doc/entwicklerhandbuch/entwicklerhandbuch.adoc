@@ -1,0 +1,110 @@
+// Preview durch <Strg><Shift>v
+
+= Entwickler/innen/handbuch
+Team 8
+:doctype: book
+:toc: left
+:sectanchors:
+:sectlinks:
+:sectnums:
+:source-highlighter: highlight.js
+:icons: font
+// :kroki-server-url: https://kroki.io
+
+// https://github.com/asciidoctor/asciidoctorj
+// https://github.com/asciidoctor/asciidoctor-diagram
+// http://de.plantuml.com/classes.html
+// http://de.plantuml.com/component.html
+// https://github.com/odrotbohm/asciidoctor-plantuml
+
+== Der Applikationsserver
+
+=== Der Applikationsserver im Überblick
+
+Ein Applikationsserver ist eine Softwareplattform, die als Vermittler zwischen Anwendungen und dem zugrunde liegenden Betriebssystem agiert, indem sie Funktionen wie Ressourcenmanagement, Sicherheit, Transaktionsverwaltung und Skalierung bereitstellt.
+
+.Use Cases
+[plantuml,use-cases,svg]
+----
+include::use-cases.plantuml[]
+----
+
+Usecases beschreiben die verschiedenen Anwendungsfälle und Szenarien, in denen ein Produkt, eine Technologie oder eine Dienstleistung eingesetzt werden kann.
+
+.Komponentendiagramm
+[plantuml,komponenten,svg]
+----
+include::komponenten.plantuml[]
+----
+
+=== Die REST-Schnittstelle
+
+Eine REST-Schnittstelle ist eine webbasierte API, die auf dem RESTful-Architekturstil basiert und standardisierte HTTP-Methoden zur Übertragung von Daten zwischen Systemen verwendet.
+
+."ComicheftGetController" für Lesezugriffe an der REST-Schnittstelle
+[plantuml,ComicheftGetController,svg]
+----
+include::ComicheftGetController.plantuml[]
+----
+
+Controller, der sich auf die Verwaltung und Steuerung des Abrufs von Comicheften in einer digitalen Bibliothek oder Plattform spezialisiert hat.
+
+."ComicheftWriteController" für Schreibzugriffe an der REST-Schnittstelle
+[plantuml,ComicheftGetController,svg]
+----
+include::ComicheftWriteController.plantuml[]
+----
+
+=== Die GraphQL-Schnittstelle
+.ComicheftQueryResolver für Lesezugriffe an der GraphQL-Schnittstelle
+[plantuml,ComicheftQueryResolver,svg]
+----
+include::ComicheftQueryResolver.plantuml[]
+----
+
+.ComicheftMutationResolver für Schreibzugriffe an der GraphQL-Schnittstelle
+[plantuml,ComicheftMutationResolver,svg]
+----
+include::ComicheftMutationResolver.plantuml[]
+----
+
+=== Die Geschäftslogik
+
+."ComicheftReadService" von der Geschäftslogik
+[plantuml,ComicheftReadService,svg]
+----
+include::ComicheftReadService.plantuml[]
+----
+
+."ComicheftWriteService" von der Geschäftslogik
+[plantuml,ComicheftWriteService,svg]
+----
+include::ComicheftWriteService.plantuml[]
+----
+
+=== Klasse für Entities
+
+.Entity
+[plantuml,Comicheft,svg]
+----
+include::Comicheft.plantuml[]
+----
+
+=== ER-Diagramm
+
+.ER-Diagramm
+[plantuml,ER-Diagramm,svg]
+----
+include::ER-Diagramm.plantuml[]
+----
+
+== Programmierrichtlinien für TypeScript und JavaScript
+
+Für die Programmierung mit *TypeScript* und *JavaScript* sind folgende
+Styleguides empfehlenswert:
+
+[horizontal]
+_Microsoft_:: https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines
+_Angular_:: https://angular.io/docs/ts/latest/guide/style-guide.html
+_Google_:: https://google.github.io/styleguide/tsguide.html
+_React_:: https://github.com/airbnb/javascript/tree/master/react

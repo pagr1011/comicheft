@@ -1,0 +1,71 @@
+' Preview durch <Alt>d
+
+@startuml Anwendungskern
+
+interface Promise<T>
+
+package @nestjs/common {
+  class "@Injectable" as Injectable
+  hide Injectable circle
+}
+
+package typeorm {
+  class Repository<T>
+}
+
+package @nestjs/typeorm {
+  class "@InjectRepository" as InjectRepository
+  hide InjectRepository circle
+}
+
+package mail {
+  class MailService
+}
+
+package comicheft {
+  package entity {
+    class Comicheft
+  }
+
+  package service #DDDDDD {
+    class ComicheftInvalid
+    class TitelExists
+    class IsbnExists
+    class VersionInvalid
+    class VersionOutdated
+
+    class ComicheftWriteService << control >> <<@Injectable()>> {
+      + async create(comicheft: Comicheft): Promise<string|ComicheftInvalid|TitelExists|IsbnExists>
+      + async update(id: number, comicheft: Comicheft, version: string): Promise<number|ComicheftInvalid|TitelExists|IsbnExists|VersionInvalid|VersionOutdated>
+      + async delete(id: number): Promise<boolean>
+    }
+
+    ComicheftWriteService o--> "1" ComicheftValidationService: validationService
+    ComicheftWriteService o--> "1" ComicheftReadService: readService
+    ComicheftWriteService o--> "1" Repository: @InjectRepository repo
+    ComicheftWriteService o--> "1" MailService: mailService
+
+    ComicheftWriteService .up.> Injectable
+    ComicheftWriteService .up.> InjectRepository
+
+    ComicheftWriteService .up.> Promise
+    ComicheftWriteService ..> Comicheft
+    ComicheftWriteService .up.> ComicheftInvalid
+    ComicheftWriteService .up.> TitelExists
+    ComicheftWriteService .up.> IsbnExists
+    ComicheftWriteService .up.> VersionInvalid
+    ComicheftWriteService .up.> VersionOutdated
+
+    ComicheftInvalid .up[hidden].> Comicheft
+    Comicheft .up[hidden].> Promise
+    Comicheft .up[hidden].> Injectable
+    Comicheft .up[hidden].> InjectRepository
+    TitelExists .up[hidden].> Comicheft
+    ComicheftValidationService .[hidden].> Repository
+    ComicheftValidationService .[hidden].> MailService
+  }
+}
+
+hide empty members
+
+@enduml

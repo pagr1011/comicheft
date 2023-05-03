@@ -1,0 +1,78 @@
+' Copyright (C) 2019 - present Juergen Zimmermann, Hochschule Karlsruhe
+'
+' This program is free software: you can redistribute it and/or modify
+' it under the terms of the GNU General Public License as published by
+' the Free Software Foundation, either version 3 of the License, or
+' (at your option) any later version.
+'
+' This program is distributed in the hope that it will be useful,
+' but WITHOUT ANY WARRANTY; without even the implied warranty of
+' MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+' GNU General Public License for more details.
+'
+' You should have received a copy of the GNU General Public License
+' along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+' Preview durch <Alt>d
+
+@startuml Komponenten
+
+left to right direction
+
+actor RESTClient
+actor GraphQLClient
+
+node "Nest" {
+  [RequestLoggerMiddleware]
+
+  [ComicheftController]
+  [ComicheftResolver]
+
+  [ComicheftService]
+
+  [Repository<Comicheft>]
+
+  [MailService]
+}
+
+
+cloud {
+    [TypeORM]
+}
+
+cloud {
+    [nodemailer]
+}
+
+database "DB comicheft" {
+    [Tabelle comicheft]
+    [Tabelle titel]
+    [Tabelle abbildung]
+}
+
+node {
+    [Mailserver]
+}
+
+RESTClient ~~> [RequestLoggerMiddleware]
+GraphQLClient ~~> [RequestLoggerMiddleware]
+
+[RequestLoggerMiddleware] ~~> [ComicheftController]
+[RequestLoggerMiddleware] ~~> [ComicheftResolver]
+
+[ComicheftController] ..> [ComicheftService]
+[ComicheftResolver] ..> [ComicheftService]
+[ComicheftService] ..> [Repository<Comicheft>]
+
+[Repository<Comicheft>] ~~> [TypeORM]
+[TypeORM] ~~> [Tabelle comicheft]
+[TypeORM] ~~> [Tabelle titel]
+[TypeORM] ~~> [Tabelle abbildung]
+
+[ComicheftService] ..> [MailService]
+[MailService] ~~> [nodemailer]
+[nodemailer] ~~> [Mailserver]
+
+footer (c) Jürgen Zimmermann
+
+@enduml

@@ -1,0 +1,62 @@
+' Preview durch <Alt>d
+
+@startuml Controller-Klasse
+
+interface Promise<T>
+
+package @nestjs/graphql {
+  class "@Resolver" as Resolver
+  hide Resolver circle
+
+  class "@UseInterceptors" as UseInterceptors
+  hide UseInterceptors circle
+
+  class "@Query" as Query
+  hide Query circle
+
+  class "@Args" as Args
+  hide Args circle
+
+  Resolver .left[hidden].> Promise
+}
+
+package comicheft {
+  package entity {
+    class Comicheft <<entity>>
+  }
+
+  package service {
+    class ComicheftReadService << control >>
+  }
+
+  package graphql #DDDDDD {
+    class "type ComicheftDTO = Omit<Comicheft, 'abbildungen' | 'aktualisiert' | 'erzeugt'" as ComicheftDTO
+    hide ComicheftDTO circle
+
+    interface IdInput {
+        id: number
+    }
+
+    class ComicheftQueryResolver << control >> << @Resolver() >> << @UseInterceptors() >> {
+      + @Query() async comicheft(@Args() id: IdInput): Promise<ComicheftDTO>
+      + @Query() async comichefte(@Args() titel: string | undefined): Promise<ComicheftDTO[]>
+    }
+
+    ComicheftQueryResolver o-up-> "1" ComicheftReadService : service
+    ComicheftQueryResolver ..> ComicheftDTO
+    ComicheftQueryResolver ..> IdInput
+    ComicheftDTO ..> Comicheft
+    ComicheftQueryResolver ..> Resolver
+
+    ComicheftQueryResolver ..> Promise
+
+    ComicheftDTO .[hidden].> Comicheft
+    Comicheft .[hidden].> Promise
+    ComicheftReadService .[hidden].> Promise
+    Comicheft .[hidden].> Resolver
+    ComicheftReadService .[hidden].> Resolver
+  }
+}
+
+hide empty members
+@enduml

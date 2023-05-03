@@ -1,0 +1,49 @@
+' Preview durch <Alt>d
+
+@startuml Anwendungskern
+
+interface Promise<T>
+
+package @nestjs/common {
+  class "@Injectable" as Injectable
+  hide Injectable circle
+}
+
+package typeorm {
+  class Repository<T>
+}
+
+package @nestjs/typeorm {
+  class "@InjectRepository" as InjectRepository
+  hide InjectRepository circle
+}
+
+package comicheft {
+  package entity {
+    class Comicheft
+  }
+
+  package service #DDDDDD {
+    class QueryBuilder
+
+    class ComicheftReadService << control >> <<@Injectable()>> {
+      + async findById(id: number): Promise<Comicheft | undefined>
+      + async find(suchkriterien?: Record<string, any>): Promise<Comicheft[]>
+    }
+
+    ComicheftReadService o--> "1" QueryBuilder: queryBuilder
+    ComicheftReadService o--> "1" Repository: @InjectRepository repo
+
+    ComicheftReadService .up.> Injectable
+    ComicheftReadService .up.> InjectRepository
+
+    ComicheftReadService .up.> Promise
+    ComicheftReadService ..> Comicheft
+
+    QueryBuilder .[hidden].> Repository
+    QueryBuilder .[hidden].> Comicheft
+  }
+}
+
+hide empty members
+@enduml

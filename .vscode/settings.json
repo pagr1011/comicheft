@@ -1,0 +1,29 @@
+{
+  "rest-client.environmentVariables": {
+    "https-3000": {
+      "restUrl": "https://localhost:3000/rest",
+      "authUrl": "https://localhost:3000/auth",
+      "graphQlUrl": "https://localhost:3000/graphql",
+      "healthUrl": "https://localhost:3000/health",
+      "dbPopulateUrl": "https://localhost:3000/dbPopulate"
+    },
+    "http-3000": {
+      "restUrl": "http://localhost:3000/rest",
+      "authUrl": "http://localhost:3000/auth",
+      "graphQlUrl": "http://localhost:3000/graphql",
+      "healthUrl": "http://localhost:3000/health",
+      "dbPopulateUrl": "http://localhost:3000/dbPopulate"
+    },
+    "ingress": {
+      "restUrl": "https://kubernetes.docker.internal/rest",
+      "authUrl": "https://kubernetes.docker.internal/auth",
+      "graphQlUrl": "https://kubernetes.docker.internal/graphql",
+      "healthUrl": "https://kubernetes.docker.internal/health",
+      "dbPopulateUrl": "https://kubernetes.docker.internal/dbPopulate"
+    }
+  },
+  "csv-preview.separator": "\\;",
+  "files.eol": "\n",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "peacock.color": "#215732"
+}
