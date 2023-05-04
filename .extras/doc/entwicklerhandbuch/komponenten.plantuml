@@ -73,6 +73,4 @@ GraphQLClient ~~> [RequestLoggerMiddleware]
 [MailService] ~~> [nodemailer]
 [nodemailer] ~~> [Mailserver]
 
-footer (c) Jürgen Zimmermann
-
 @enduml
