@@ -22,7 +22,10 @@ import { ResponseTimeInterceptor } from '../../logger/response-time.interceptor.
 import { UseInterceptors } from '@nestjs/common';
 import { getLogger } from '../../logger/logger.js';
 
-export type ComicheftDTO = Omit<Comicheft, 'abbildungen' | 'aktualisiert' | 'erzeugt'>;
+export type ComicheftDTO = Omit<
+    Comicheft,
+    'abbildungen' | 'aktualisiert' | 'erzeugt'
+>;
 export interface IdInput {
     id: number;
 }
@@ -60,12 +63,14 @@ export class ComicheftQueryResolver {
         const titelStr = titel?.titel;
         this.#logger.debug('find: titel=%s', titelStr);
         const suchkriterium = titelStr === undefined ? {} : { titel: titelStr };
-        const buecher = await this.#service.find(suchkriterium);
-        if (buecher.length === 0) {
+        const comichefte = await this.#service.find(suchkriterium);
+        if (comichefte.length === 0) {
             throw new BadUserInputError('Es wurden keine Buecher gefunden.');
         }
 
-        const comichefteDTO = comichefte.map((comicheft) => this.#toComicheftDTO(comicheft));
+        const comichefteDTO = comichefte.map((comicheft) =>
+            this.#toComicheftDTO(comicheft),
+        );
         this.#logger.debug('find: comichefteDTO=%o', comichefteDTO);
         return comichefteDTO;
     }

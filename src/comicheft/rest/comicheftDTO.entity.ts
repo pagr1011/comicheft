@@ -45,7 +45,7 @@ import { Type } from 'class-transformer';
 export const MAX_RATING = 5;
 
 /**
- * Entity-Klasse für Bücher ohne TypeORM und ohne Referenzen.
+ * Entity-Klasse für Comichefte ohne TypeORM und ohne Referenzen.
  */
 export class ComicheftDtoOhneRef {
     // https://www.oreilly.com/library/view/regular-expressions-cookbook/9781449327453/ch04s13.html
@@ -96,7 +96,7 @@ export class ComicheftDtoOhneRef {
 }
 
 /**
- * Entity-Klasse für Bücher ohne TypeORM.
+ * Entity-Klasse für Comichefte ohne TypeORM.
  */
 export class ComicheftDTO extends ComicheftDtoOhneRef {
     @ValidateNested()

@@ -34,11 +34,9 @@ import { Comicheft } from '../entity/comicheft.entity.js';
 import { ComicheftReadService } from './comicheft-read.service.js';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable } from '@nestjs/common';
-import { MailService } from '../../mail/mail.service.js';
 import RE2 from 're2';
 import { Titel } from '../entity/titel.entity.js';
 import { getLogger } from '../../logger/logger.js';
-
 
 /** Typdefinitionen zum Aktualisieren eines Buches mit `update`. */
 export interface UpdateParams {
@@ -62,18 +60,14 @@ export class ComicheftWriteService {
 
     readonly #readService: ComicheftReadService;
 
-    readonly #mailService: MailService;
-
     readonly #logger = getLogger(ComicheftWriteService.name);
 
     constructor(
         @InjectRepository(Comicheft) repo: Repository<Comicheft>,
         readService: ComicheftReadService,
-        mailService: MailService,
     ) {
         this.#repo = repo;
         this.#readService = readService;
-        this.#mailService = mailService;
     }
 
     /**
@@ -91,8 +85,6 @@ export class ComicheftWriteService {
 
         const comicheftDb = await this.#repo.save(comicheft); // implizite Transaktion
         this.#logger.debug('create: comicheftDb=%o', comicheftDb);
-
-        await this.#sendmail(comicheftDb);
 
         return comicheftDb.id!; // eslint-disable-line @typescript-eslint/no-non-null-assertion
     }
@@ -122,7 +114,11 @@ export class ComicheftWriteService {
             return { type: 'ComicheftNotExists', id };
         }
 
-        const validateResult = await this.#validateUpdate(comicheft, id, version);
+        const validateResult = await this.#validateUpdate(
+            comicheft,
+            id,
+            version,
+        );
         this.#logger.debug('update: validateResult=%o', validateResult);
         if (!(validateResult instanceof Comicheft)) {
             return validateResult;
@@ -178,7 +174,9 @@ export class ComicheftWriteService {
         );
     }
 
-    async #validateCreate(comicheft: Comicheft): Promise<CreateError | undefined> {
+    async #validateCreate(
+        comicheft: Comicheft,
+    ): Promise<CreateError | undefined> {
         this.#logger.debug('#validateCreate: comicheft=%o', comicheft);
 
         const { isbn } = comicheft;
@@ -189,13 +187,6 @@ export class ComicheftWriteService {
 
         this.#logger.debug('#validateCreate: ok');
         return undefined;
-    }
-
-    async #sendmail(comicheft: Comicheft) {
-        const subject = `Neues Buch ${comicheft.id}`;
-        const titel = comicheft.titel?.titel ?? 'N/A';
-        const body = `Das Buch mit dem Titel <strong>${titel}</strong> ist angelegt`;
-        await this.#mailService.sendmail({ subject, body });
     }
 
     async #validateUpdate(
@@ -239,8 +230,14 @@ export class ComicheftWriteService {
     ): Promise<Comicheft | ComicheftNotExists | VersionOutdated> {
         const comicheftDb = await this.#readService.findById({ id });
         if (comicheftDb === undefined) {
-            const result: ComicheftNotExists = { type: 'ComicheftNotExists', id };
-            this.#logger.debug('#checkIdAndVersion: ComicheftNotExists=%o', result);
+            const result: ComicheftNotExists = {
+                type: 'ComicheftNotExists',
+                id,
+            };
+            this.#logger.debug(
+                '#checkIdAndVersion: ComicheftNotExists=%o',
+                result,
+            );
             return result;
         }
 
