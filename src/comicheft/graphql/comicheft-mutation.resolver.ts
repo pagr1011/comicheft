@@ -150,7 +150,9 @@ export class ComicheftMutationResolver {
         return comicheft;
     }
 
-    #comicheftUpdateDtoToComicheft(comicheftDTO: ComicheftUpdateDTO): Comicheft {
+    #comicheftUpdateDtoToComicheft(
+        comicheftDTO: ComicheftUpdateDTO,
+    ): Comicheft {
         return {
             id: undefined,
             version: undefined,

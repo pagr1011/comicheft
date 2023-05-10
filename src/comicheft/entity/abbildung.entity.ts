@@ -40,5 +40,5 @@ export class Abbildung {
 
     @ManyToOne(() => Comicheft, (comicheft) => comicheft.abbildungen)
     @JoinColumn({ name: 'comicheft_id' })
-    buch: Comicheft | undefined;
+    comicheft: Comicheft | undefined;
 }

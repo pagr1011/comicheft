@@ -301,7 +301,9 @@ export class ComicheftWriteController {
             .send(msg);
     }
 
-    #comicheftDtoOhneRefToComicheft(comicheftDTO: ComicheftDtoOhneRef): Comicheft {
+    #comicheftDtoOhneRefToComicheft(
+        comicheftDTO: ComicheftDtoOhneRef,
+    ): Comicheft {
         return {
             id: undefined,
             version: undefined,

@@ -136,7 +136,9 @@ export class ComicheftReadService {
         // QueryBuilder https://typeorm.io/select-query-builder
         // Das Resultat ist eine leere Liste, falls nichts gefunden
         // Lesen: Keine Transaktion erforderlich
-        const comichefte = await this.#queryBuilder.build(suchkriterien).getMany();
+        const comichefte = await this.#queryBuilder
+            .build(suchkriterien)
+            .getMany();
         this.#logger.debug('find: comichefte=%o', comichefte);
 
         return comichefte;

@@ -32,7 +32,10 @@ import {
     ApiResponse,
     ApiTags,
 } from '@nestjs/swagger';
-import { type Comicheft, type ComicheftArt } from '../entity/comicheft.entity.js';
+import {
+    type Comicheft,
+    type ComicheftArt,
+} from '../entity/comicheft.entity.js';
 import {
     ComicheftReadService,
     type Suchkriterien,
@@ -80,7 +83,7 @@ export type TitelModel = Omit<Titel, 'comicheft' | 'id'>;
 
 /** Buch-Objekt mit HATEOAS-Links */
 export type ComicheftModel = Omit<
-Comicheft,
+    Comicheft,
     'abbildungen' | 'aktualisiert' | 'erzeugt' | 'id' | 'titel' | 'version'
 > & {
     titel: TitelModel;
@@ -295,7 +298,9 @@ export class ComicheftGetController {
         );
         this.#logger.debug('find: buecherModel=%o', comichefteModel);
 
-        const result: ComichefteModel = { _embedded: { comichefte: comichefteModel } };
+        const result: ComichefteModel = {
+            _embedded: { comichefte: comichefteModel },
+        };
         return res.json(result).send();
     }
 
@@ -313,7 +318,11 @@ export class ComicheftGetController {
               }
             : { self: { href: `${baseUri}/${id}` } };
 
-        this.#logger.debug('#toModel: comicheft=%o, links=%o', comicheft, links);
+        this.#logger.debug(
+            '#toModel: comicheft=%o, links=%o',
+            comicheft,
+            links,
+        );
         const titelModel: TitelModel = {
             titel: comicheft.titel?.titel ?? 'N/A', // eslint-disable-line unicorn/consistent-destructuring
             untertitel: comicheft.titel?.untertitel ?? 'N/A', // eslint-disable-line unicorn/consistent-destructuring
