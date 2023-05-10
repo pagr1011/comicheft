@@ -15,14 +15,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Comicheft,
+import {
     Column,
     Entity,
     JoinColumn,
     ManyToOne,
     PrimaryGeneratedColumn,
 } from 'typeorm';
-
+import { Comicheft } from './comicheft.entity.js';
 
 @Entity()
 export class Abbildung {
@@ -40,4 +40,5 @@ export class Abbildung {
 
     @ManyToOne(() => Comicheft, (comicheft) => comicheft.abbildungen)
     @JoinColumn({ name: 'comicheft_id' })
-    comicheft: Comicheft | undefined;
+    buch: Comicheft | undefined;
+}
