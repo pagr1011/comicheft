@@ -94,7 +94,9 @@ describe('GraphQL Mutations', () => {
 
         // Der Wert der Mutation ist die generierte ObjectID
         expect(create).toBeDefined();
-        expect(ComicheftReadService.ID_PATTERN.test(create as string)).toBe(true);
+        expect(ComicheftReadService.ID_PATTERN.test(create as string)).toBe(
+            true,
+        );
     });
 
     // -------------------------------------------------------------------------
