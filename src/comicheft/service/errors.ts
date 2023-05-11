@@ -31,7 +31,7 @@ export interface IsbnExists {
 }
 
 /**
- * ggf. Union-Type für diverse Fehler beim Neuanlegen eines Buches:
+ * ggf. Union-Type für diverse Fehler beim Neuanlegen eines Comicheftes:
  * - {@linkcode IsbnExists}
  */
 export type CreateError = IsbnExists;
@@ -54,7 +54,7 @@ export interface VersionOutdated {
 }
 
 /**
- * Klasse für ein nicht-vorhandenes Buch beim Ändern.
+ * Klasse für ein nicht-vorhandenes Comicheft beim Ändern.
  */
 export interface ComicheftNotExists {
     readonly type: 'ComicheftNotExists';
@@ -62,7 +62,7 @@ export interface ComicheftNotExists {
 }
 
 /**
- * Union-Type für Fehler beim Ändern eines Buches:
+ * Union-Type für Fehler beim Ändern eines Comicheftes:
  * - {@linkcode ComicheftNotExists}
  * - {@linkcode ConstraintViolations}
  * - {@linkcode VersionInvalid}
