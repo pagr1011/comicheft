@@ -36,13 +36,13 @@ type Mutation {
   delete(id: ID!): Boolean
 }
 
-"Daten zum Titel eines Buches"
+"Daten zum Titel eines Comicheftes"
 type Titel {
   titel: String!
   untertitel: String
 }
 
-"Datenschema zu einem Buch, das gelesen wird"
+"Datenschema zu einem Comicheft, das gelesen wird"
 type Comicheft {
   id: ID!
   version: Int!
@@ -58,25 +58,25 @@ type Comicheft {
   titel: Titel!
 }
 
-"Enum-Typ für die Art eines Buches"
+"Enum-Typ für die Art eines Comicheftes"
 enum Art {
   DRUCKAUSGABE
   KINDLE
 }
 
-"Daten zum Titel eines neuen Buches"
+"Daten zum Titel eines neuen Comicheftes"
 input TitelInput {
   titel: String!
   untertitel: String
 }
 
-"Daten zu den Abbildungen eines Buches"
+"Daten zu den Abbildungen eines Comicheftes"
 input AbbildungInput {
   beschriftung: String!
   contentType: String!
 }
 
-"Daten für ein neues Buch"
+"Daten für ein neues Comicheft"
 input ComicheftInput {
   isbn: String
   rating: Int
@@ -91,7 +91,7 @@ input ComicheftInput {
   abbildungen: [AbbildungInput!]
 }
 
-"Daten für ein zu änderndes Buch"
+"Daten für ein zu änderndes Comicheft"
 input ComicheftUpdateInput {
   id: ID
   version: Int

@@ -78,10 +78,10 @@ export interface Links {
     remove?: Link;
 }
 
-/** Typedefinition für ein Titel-Objekt ohne Rückwärtsverweis zum Buch */
+/** Typedefinition für ein Titel-Objekt ohne Rückwärtsverweis zum Comicheft */
 export type TitelModel = Omit<Titel, 'comicheft' | 'id'>;
 
-/** Buch-Objekt mit HATEOAS-Links */
+/** Comicheft-Objekt mit HATEOAS-Links */
 export type ComicheftModel = Omit<
     Comicheft,
     'abbildungen' | 'aktualisiert' | 'erzeugt' | 'id' | 'titel' | 'version'
@@ -91,7 +91,7 @@ export type ComicheftModel = Omit<
     _links: Links;
 };
 
-/** Buch-Objekte mit HATEOAS-Links in einem JSON-Array. */
+/** Comicheft-Objekte mit HATEOAS-Links in einem JSON-Array. */
 export interface ComichefteModel {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     _embedded: {
@@ -100,9 +100,9 @@ export interface ComichefteModel {
 }
 
 /**
- * Klasse für `BuchGetController`, um Queries in _OpenAPI_ bzw. Swagger zu
- * formulieren. `BuchController` hat dieselben Properties wie die Basisklasse
- * `Buch` - allerdings mit dem Unterschied, dass diese Properties beim Ableiten
+ * Klasse für `ComicheftGetController`, um Queries in _OpenAPI_ bzw. Swagger zu
+ * formulieren. `ComicheftController` hat dieselben Properties wie die Basisklasse
+ * `Comicheft` - allerdings mit dem Unterschied, dass diese Properties beim Ableiten
  * so überschrieben sind, dass sie auch nicht gesetzt bzw. undefined sein
  * dürfen, damit die Queries flexibel formuliert werden können. Deshalb ist auch
  * immer der zusätzliche Typ undefined erforderlich.
@@ -164,22 +164,22 @@ export class ComicheftGetController {
     readonly #logger = getLogger(ComicheftGetController.name);
 
     // Dependency Injection (DI) bzw. Constructor Injection
-    // constructor(private readonly service: BuchReadService) {}
+    // constructor(private readonly service: ComicheftReadService) {}
     constructor(service: ComicheftReadService) {
         this.#service = service;
     }
 
     /**
-     * Ein Buch wird asynchron anhand seiner ID als Pfadparameter gesucht.
+     * Ein Comicheft wird asynchron anhand seiner ID als Pfadparameter gesucht.
      *
-     * Falls es ein solches Buch gibt und `If-None-Match` im Request-Header
-     * auf die aktuelle Version des Buches gesetzt war, wird der Statuscode
+     * Falls es ein solches Comicheft gibt und `If-None-Match` im Request-Header
+     * auf die aktuelle Version des Comicheftes gesetzt war, wird der Statuscode
      * `304` (`Not Modified`) zurückgeliefert. Falls `If-None-Match` nicht
      * gesetzt ist oder eine veraltete Version enthält, wird das gefundene
-     * Buch im Rumpf des Response als JSON-Datensatz mit Atom-Links für HATEOAS
+     * Comicheft im Rumpf des Response als JSON-Datensatz mit Atom-Links für HATEOAS
      * und dem Statuscode `200` (`OK`) zurückgeliefert.
      *
-     * Falls es kein Buch zur angegebenen ID gibt, wird der Statuscode `404`
+     * Falls es kein Comicheft zur angegebenen ID gibt, wird der Statuscode `404`
      * (`Not Found`) zurückgeliefert.
      *
      * @param id Pfad-Parameter `id`
@@ -192,7 +192,7 @@ export class ComicheftGetController {
      */
     // eslint-disable-next-line max-params, max-lines-per-function
     @Get(':id')
-    @ApiOperation({ summary: 'Suche mit der Buch-ID', tags: ['Suchen'] })
+    @ApiOperation({ summary: 'Suche mit der Comicheft-ID', tags: ['Suchen'] })
     @ApiParam({
         name: 'id',
         description: 'Z.B. 00000000-0000-0000-0000-000000000001',
@@ -202,11 +202,11 @@ export class ComicheftGetController {
         description: 'Header für bedingte GET-Requests, z.B. "0"',
         required: false,
     })
-    @ApiOkResponse({ description: 'Das Buch wurde gefunden' })
-    @ApiNotFoundResponse({ description: 'Kein Buch zur ID gefunden' })
+    @ApiOkResponse({ description: 'Das Comicheft wurde gefunden' })
+    @ApiNotFoundResponse({ description: 'Kein Comicheft zur ID gefunden' })
     @ApiResponse({
         status: HttpStatus.NOT_MODIFIED,
-        description: 'Das Buch wurde bereits heruntergeladen',
+        description: 'Das Comicheft wurde bereits heruntergeladen',
     })
     async findById(
         @Param('id') id: number,
@@ -256,11 +256,11 @@ export class ComicheftGetController {
 
     /**
      * Bücher werden mit Query-Parametern asynchron gesucht. Falls es mindestens
-     * ein solches Buch gibt, wird der Statuscode `200` (`OK`) gesetzt. Im Rumpf
+     * ein solches Comicheft gibt, wird der Statuscode `200` (`OK`) gesetzt. Im Rumpf
      * des Response ist das JSON-Array mit den gefundenen Büchern, die jeweils
      * um Atom-Links für HATEOAS ergänzt sind.
      *
-     * Falls es kein Buch zu den Suchkriterien gibt, wird der Statuscode `404`
+     * Falls es kein Comicheft zu den Suchkriterien gibt, wird der Statuscode `404`
      * (`Not Found`) gesetzt.
      *
      * Falls es keine Query-Parameter gibt, werden alle Bücher ermittelt.
@@ -285,18 +285,18 @@ export class ComicheftGetController {
             return res.sendStatus(HttpStatus.NOT_ACCEPTABLE);
         }
 
-        const buecher = await this.#service.find(query);
-        this.#logger.debug('find: %o', buecher);
-        if (buecher.length === 0) {
+        const comichefte = await this.#service.find(query);
+        this.#logger.debug('find: %o', comichefte);
+        if (comichefte.length === 0) {
             this.#logger.debug('find: NOT_FOUND');
             return res.sendStatus(HttpStatus.NOT_FOUND);
         }
 
         // HATEOAS: Atom Links je comicheft
-        const comichefteModel = buecher.map((comicheft) =>
+        const comichefteModel = comichefte.map((comicheft) =>
             this.#toModel(comicheft, req, false),
         );
-        this.#logger.debug('find: buecherModel=%o', comichefteModel);
+        this.#logger.debug('find: comichefteModel=%o', comichefteModel);
 
         const result: ComichefteModel = {
             _embedded: { comichefte: comichefteModel },

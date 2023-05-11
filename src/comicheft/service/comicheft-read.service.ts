@@ -30,7 +30,7 @@ import { getLogger } from '../../logger/logger.js';
  * Typdefinition für `findById`
  */
 export interface FindByIdParams {
-    /** ID des gesuchten Buchs */
+    /** ID des gesuchten Comichefts */
     id: number;
     /** Sollen die Abbildungen mitgeladen werden? */
     mitAbbildungen?: boolean;
@@ -50,7 +50,7 @@ export interface Suchkriterien {
 }
 
 /**
- * Die Klasse `BuchReadService` implementiert das Lesen für Bücher und greift
+ * Die Klasse `ComicheftReadService` implementiert das Lesen für Bücher und greift
  * mit _TypeORM_ auf eine relationale DB zu.
  */
 @Injectable()
@@ -82,9 +82,9 @@ export class ComicheftReadService {
     //              Im Promise-Objekt ist dann die Fehlerursache enthalten.
 
     /**
-     * Ein Buch asynchron anhand seiner ID suchen
-     * @param id ID des gesuchten Buches
-     * @returns Das gefundene Buch vom Typ [Buch](buch_entity_buch_entity.Buch.html) oder undefined
+     * Ein Comicheft asynchron anhand seiner ID suchen
+     * @param id ID des gesuchten Comicheftes
+     * @returns Das gefundene Comicheft vom Typ [Comicheft](comicheft_entity_comicheft_entity.Comicheft.html) oder undefined
      *          in einem Promise aus ES2015 (vgl.: Mono aus Project Reactor oder
      *          Future aus Java)
      */
@@ -145,7 +145,7 @@ export class ComicheftReadService {
     }
 
     #checkKeys(keys: string[]) {
-        // Ist jedes Suchkriterium auch eine Property von Buch oder "schlagwoerter"?
+        // Ist jedes Suchkriterium auch eine Property von Comicheft oder "schlagwoerter"?
         let validKeys = true;
         keys.forEach((key) => {
             if (

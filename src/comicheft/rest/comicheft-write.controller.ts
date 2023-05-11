@@ -117,11 +117,11 @@ export class ComicheftWriteController {
     }
 
     /**
-     * Ein vorhandenes Buch wird asynchron aktualisiert.
+     * Ein vorhandenes Comicheft wird asynchron aktualisiert.
      *
-     * Im Request-Objekt von Express muss die ID des zu aktualisierenden Buches
+     * Im Request-Objekt von Express muss die ID des zu aktualisierenden Comicheftes
      * als Pfad-Parameter enthalten sein. Außerdem muss im Rumpf das zu
-     * aktualisierende Buch als JSON-Datensatz enthalten sein. Damit die
+     * aktualisierende Comicheft als JSON-Datensatz enthalten sein. Damit die
      * Aktualisierung überhaupt durchgeführt werden kann, muss im Header
      * `If-Match` auf die korrekte Version für optimistische Synchronisation
      * gesetzt sein.
@@ -135,7 +135,7 @@ export class ComicheftWriteController {
      * Statuscode `400` (`Bad Request`) gesetzt und genauso auch wenn der neue
      * Titel oder die neue ISBN-Nummer bereits existieren.
      *
-     * @param comicheft Buchdaten im Body des Request-Objekts.
+     * @param comicheft Comicheftdaten im Body des Request-Objekts.
      * @param id Pfad-Paramater für die ID.
      * @param version Versionsnummer aus dem Header _If-Match_.
      * @param res Leeres Response-Objekt von Express.
@@ -145,7 +145,7 @@ export class ComicheftWriteController {
     @Put(':id')
     @RolesAllowed('admin', 'mitarbeiter')
     @ApiOperation({
-        summary: 'Ein vorhandenes Buch aktualisieren',
+        summary: 'Ein vorhandenes Comicheft aktualisieren',
         tags: ['Aktualisieren'],
     })
     @ApiHeader({
@@ -159,7 +159,7 @@ export class ComicheftWriteController {
         required: true,
     })
     @ApiNoContentResponse({ description: 'Erfolgreich aktualisiert' })
-    @ApiBadRequestResponse({ description: 'Fehlerhafte Buchdaten' })
+    @ApiBadRequestResponse({ description: 'Fehlerhafte Comicheftdaten' })
     @ApiPreconditionFailedResponse({
         description: 'Falsche Version im Header "If-Match"',
     })
@@ -174,7 +174,7 @@ export class ComicheftWriteController {
         @Res() res: Response,
     ): Promise<Response> {
         this.#logger.debug(
-            'update: id=%s, buchDTO=%o, version=%s',
+            'update: id=%s, comicheftDTO=%o, version=%s',
             id,
             comicheftDTO,
             version,
@@ -200,7 +200,7 @@ export class ComicheftWriteController {
     }
 
     /**
-     * Ein Buch wird anhand seiner ID-gelöscht, die als Pfad-Parameter angegeben
+     * Ein Comicheft wird anhand seiner ID-gelöscht, die als Pfad-Parameter angegeben
      * ist. Der zurückgelieferte Statuscode ist `204` (`No Content`).
      *
      * @param id Pfad-Paramater für die ID.
@@ -209,14 +209,17 @@ export class ComicheftWriteController {
      */
     @Delete(':id')
     @RolesAllowed('admin')
-    @ApiOperation({ summary: 'Buch mit der ID löschen', tags: ['Loeschen'] })
+    @ApiOperation({
+        summary: 'Comicheft mit der ID löschen',
+        tags: ['Loeschen'],
+    })
     @ApiHeader({
         name: 'Authorization',
         description: 'Header für JWT',
         required: true,
     })
     @ApiNoContentResponse({
-        description: 'Das Buch wurde gelöscht oder war nicht vorhanden',
+        description: 'Das Comicheft wurde gelöscht oder war nicht vorhanden',
     })
     async delete(
         @Param('id') id: number,
@@ -327,7 +330,7 @@ export class ComicheftWriteController {
         switch (err.type) {
             case 'ComicheftNotExists': {
                 const { id } = err;
-                const msg = `Es gibt kein Buch mit der ID "${id}".`;
+                const msg = `Es gibt kein Comicheft mit der ID "${id}".`;
                 this.#logger.debug('#handleUpdateError: msg=%s', msg);
                 return res
                     .status(HttpStatus.PRECONDITION_FAILED)

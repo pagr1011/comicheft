@@ -29,9 +29,9 @@ import { Titel } from '../entity/titel.entity.js';
 import { getLogger } from '../../logger/logger.js';
 import { typeOrmModuleOptions } from '../../config/db.js';
 
-/** Typdefinitionen für die Suche mit der Buch-ID. */
+/** Typdefinitionen für die Suche mit der Comicheft-ID. */
 export interface BuildIdParams {
-    /** ID des gesuchten Buchs. */
+    /** ID des gesuchten Comichefts. */
     id: number;
     /** Sollen die Abbildungen mitgeladen werden? */
     mitAbbildungen?: boolean;
@@ -63,12 +63,14 @@ export class QueryBuilder {
     }
 
     /**
-     * Ein Buch mit der ID suchen.
-     * @param id ID des gesuchten Buches
+     * Ein Comicheft mit der ID suchen.
+     * @param id ID des gesuchten Comicheftes
      * @returns QueryBuilder
      */
     buildId({ id, mitAbbildungen = false }: BuildIdParams) {
-        const queryBuilder = this.#repo.createQueryBuilder(this.#comicheftAlias);
+        const queryBuilder = this.#repo.createQueryBuilder(
+            this.#comicheftAlias,
+        );
         queryBuilder.innerJoinAndSelect(
             `${this.#comicheftAlias}.titel`,
             this.#titelAlias,
