@@ -42,7 +42,7 @@ services:
       resources:
         limits:
           cpus: "1"
-          memory: 4096M
+          memory: 512M
   jenkins:
     image: juergenzimmermann/jenkins:2023.1.0
     ports:
