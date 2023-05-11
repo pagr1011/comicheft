@@ -21,7 +21,6 @@ import { ComicheftQueryResolver } from './graphql/comicheft-query.resolver.js';
 import { ComicheftReadService } from './service/comicheft-read.service.js';
 import { ComicheftWriteController } from './rest/comicheft-write.controller.js';
 import { ComicheftWriteService } from './service/comicheft-write.service.js';
-import { MailModule } from '../mail/mail.module.js';
 import { Module } from '@nestjs/common';
 import { QueryBuilder } from './service/query-builder.js';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -38,7 +37,7 @@ import { entities } from './entity/entities.js';
  * Funktionalität für TypeORM.
  */
 @Module({
-    imports: [MailModule, TypeOrmModule.forFeature(entities), AuthModule],
+    imports: [TypeOrmModule.forFeature(entities), AuthModule],
     controllers: [ComicheftGetController, ComicheftWriteController],
     // Provider sind z.B. Service-Klassen fuer DI
     providers: [
