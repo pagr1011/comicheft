@@ -44,8 +44,8 @@ export interface Suchkriterien {
     readonly lieferbar?: boolean;
     readonly datum?: string;
     readonly homepage?: string;
-    readonly javascript?: boolean;
-    readonly typescript?: boolean;
+    readonly batman?: boolean;
+    readonly ironman?: boolean;
     readonly titel?: string;
 }
 
@@ -150,8 +150,8 @@ export class ComicheftReadService {
         keys.forEach((key) => {
             if (
                 !this.#comicheftProps.includes(key) &&
-                key !== 'javascript' &&
-                key !== 'typescript'
+                key !== 'batman' &&
+                key !== 'ironman'
             ) {
                 this.#logger.debug(
                     '#find: ungueltiges Suchkriterium "%s"',

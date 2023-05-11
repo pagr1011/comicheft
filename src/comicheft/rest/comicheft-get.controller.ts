@@ -135,10 +135,10 @@ export class ComicheftQuery implements Suchkriterien {
     declare readonly homepage: string;
 
     @ApiProperty({ required: false })
-    declare readonly javascript: boolean;
+    declare readonly batman: boolean;
 
     @ApiProperty({ required: false })
-    declare readonly typescript: boolean;
+    declare readonly ironman: boolean;
 
     @ApiProperty({ required: false })
     declare readonly titel: string;

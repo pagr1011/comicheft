@@ -59,7 +59,7 @@ mutation {
       lieferbar: true,
       datum: "2022-01-31",
       homepage: "https://create.mutation",
-      schlagwoerter: ["JAVASCRIPT", "TYPESCRIPT"],
+      schlagwoerter: ["BATMAN", "IRONMAN"],
       titel: {
         titel: "Titelcreatemutation",
         untertitel: "untertitelcreatemutation"
@@ -89,7 +89,7 @@ mutation {
       lieferbar: true,
       datum: "12345-123-123",
       homepage: "anyHomepage",
-      schlagwoerter: ["JAVASCRIPT"],
+      schlagwoerter: ["BATMAN"],
       titel: {
         titel: "?!"
         untertitel: "mutationinvalid"
@@ -117,7 +117,7 @@ mutation {
       lieferbar: false,
       datum: "2022-04-04",
       homepage: "https://update.mutation",
-      schlagwoerter: ["JAVASCRIPT", "TYPESCRIPT"]
+      schlagwoerter: ["BATMAN", "IRONMAN"]
     }
   )
 }
@@ -163,7 +163,7 @@ mutation {
       rabatt: 0.099,
       lieferbar: false,
       datum: "2022-02-01",
-      schlagwoerter: ["JAVASCRIPT", "TYPESCRIPT"],
+      schlagwoerter: ["BATMAN", "IRONMAN"],
       homepage: "https://nicht.vorhanden.de/"
     }
   )
