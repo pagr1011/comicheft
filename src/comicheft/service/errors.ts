@@ -64,7 +64,6 @@ export interface ComicheftNotExists {
 /**
  * Union-Type für Fehler beim Ändern eines Comicheftes:
  * - {@linkcode ComicheftNotExists}
- * - {@linkcode ConstraintViolations}
  * - {@linkcode VersionInvalid}
  * - {@linkcode VersionOutdated}
  */
