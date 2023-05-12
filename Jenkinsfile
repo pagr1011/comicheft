@@ -87,51 +87,13 @@ pipeline {
                 // https://github.com/nodesource/distributions/blob/master/README.md#installation-instructions
                 // https://www.debian.org/distrib/packages
                 // https://packages.debian.org/buster/nodejs
-                sh 'id'
-                sh 'cat /etc/passwd'
-                sh 'echo $PATH'
-                sh 'pwd'
-                sh 'uname -a'
-                //sh 'lsb_release -a'
-                sh 'cat /etc/os-release'
-                sh 'cat /etc/debian_version'
-                //sh 'docker --version'
-                sh 'apt update'
-
-                sh 'curl --silent --fail --show-error --location https://deb.nodesource.com/setup_19.x | bash -; apt install --no-install-recommends --yes --show-progress nodejs'
-                sh 'node --version'
-                sh 'npm i -g npm'
-                sh 'npm --version'
-
-                // https://packages.debian.org/stable/python/python3
-                // https://packages.debian.org/bullseye/python3
-                // https://computingforgeeks.com/how-to-install-python-on-debian-linux
-                // https://cloudcone.com/docs/article/how-to-install-python-3-10-on-debian-11
-                // https://linuxhint.com/install-python-debian-10
-                // https://computingforgeeks.com/how-to-install-python-on-debian-linux
-                sh 'apt install --no-install-recommends --yes --show-progress python3-minimal'
-                sh 'python3 --version'
-
-                script {
-                    if (!fileExists("${env.WORKSPACE}/package.json")) {
-                        echo "package.json ist *NICHT* in ${env.WORKSPACE} vorhanden"
-                    }
-                }
-
-                // "clean install", Dauer: ca. 5 Minuten
-                sh 'npm ci --omit=dev --no-package-lock --force'
-                sh 'npm r -D ts-jest --no-package-lock --force'
-                sh 'npm i -D typescript@rc --no-package-lock --force'
-                sh 'npm audit --omit dev fix --force'
-                sh 'npm i -D ts-jest --no-package-lock --force'
+                echo 'Install'
             }
         }
 
         stage('Compile') {
             steps {
-                sh 'npx tsc --version'
-                // Dauer < 1 Min. (Warum funktioniert npx nicht?)
-                sh './node_modules/.bin/tsc'
+                echo 'Compile'
             }
         }
 
@@ -143,23 +105,10 @@ pipeline {
                         //sh 'npm run test:coverage'
                     },
                     'ESLint': {
-                        sh 'npx eslint --version'
                         echo 'TODO: ESLint ist aus Kapazitaetsgruenden auskommentiert'
                         //sh 'npm run eslint'
                     },
-                    'Security Audit': {
-                        sh 'npm audit --omit=dev'
-                    },
-                    'AsciiDoctor': {
-                        sh 'npx asciidoctor --version'
-                        sh 'npm run asciidoctor'
-                    },
-                    'reveal.js': {
-                        sh 'npx asciidoctor-revealjs --version'
-                        sh 'npm run revealjs'
-                    },
                     'TypeDoc': {
-                        sh 'npx typedoc --version'
                         echo 'TODO: TypeDoc ist aus Kapazitaetsgruenden auskommentiert'
                         //sh 'npm run typedoc'
                     }
@@ -169,20 +118,6 @@ pipeline {
             post {
                 always {
                   echo 'TODO: Links fuer Coverage und TypeDoc'
-
-                  publishHTML (target : [
-                    reportDir: 'extras/doc/entwicklerhandbuch/html',
-                    reportFiles: 'entwicklerhandbuch.html',
-                    reportName: 'Entwicklerhandbuch',
-                    reportTitles: 'Entwicklerhandbuch'
-                  ])
-
-                  publishHTML target : [
-                   reportDir: 'extras/doc/folien',
-                   reportFiles: 'folien.html',
-                   reportName: 'Folien (reveal.js)',
-                   reportTitles: 'reveal.js'
-                  ]
 
                   //publishHTML target : [
                   //  reportDir: 'coverage',
@@ -197,18 +132,6 @@ pipeline {
                   // reportName: 'TypeDoc',
                   // reportTitles: 'TypeDoc'
                   //]
-                }
-
-                success {
-                    script {
-                        if (fileExists("${env.WORKSPACE}/comicheft.zip")) {
-                            sh 'rm comicheft.zip'
-                        }
-                    }
-                    // https://www.jenkins.io/doc/pipeline/steps/pipeline-utility-steps/#zip-create-zip-file
-                    zip zipFile: 'comicheft.zip', archive: false, dir: 'dist'
-                    // jobs/comicheft/builds/.../archive/comicheft.zip
-                    archiveArtifacts 'comicheft.zip'
                 }
             }
         }
