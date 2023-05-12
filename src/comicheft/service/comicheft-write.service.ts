@@ -38,18 +38,18 @@ import RE2 from 're2';
 import { Titel } from '../entity/titel.entity.js';
 import { getLogger } from '../../logger/logger.js';
 
-/** Typdefinitionen zum Aktualisieren eines Buches mit `update`. */
+/** Typdefinitionen zum Aktualisieren eines Comicheftes mit `update`. */
 export interface UpdateParams {
-    /** ID des zu aktualisierenden Buches. */
+    /** ID des zu aktualisierenden Comicheftes. */
     id: number | undefined;
-    /** Buch-Objekt mit den aktualisierten Werten. */
+    /** Comicheft-Objekt mit den aktualisierten Werten. */
     comicheft: Comicheft;
     /** Versionsnummer für die aktualisierenden Werte. */
     version: string;
 }
 
 /**
- * Die Klasse `BuchWriteService` implementiert den Anwendungskern für das
+ * Die Klasse `ComicheftWriteService` implementiert den Anwendungskern für das
  * Schreiben von Bücher und greift mit _TypeORM_ auf die DB zu.
  */
 @Injectable()
@@ -71,10 +71,10 @@ export class ComicheftWriteService {
     }
 
     /**
-     * Ein neues Buch soll angelegt werden.
-     * @param comicheft Das neu abzulegende Buch
-     * @returns Die ID des neu angelegten Buches oder im Fehlerfall
-     * [CreateError](../types/buch_service_errors.CreateError.html)
+     * Ein neues Comicheft soll angelegt werden.
+     * @param comicheft Das neu abzulegende Comicheft
+     * @returns Die ID des neu angelegten Comicheftes oder im Fehlerfall
+     * [CreateError](../types/comicheft_service_errors.CreateError.html)
      */
     async create(comicheft: Comicheft): Promise<CreateError | number> {
         this.#logger.debug('create: comicheft=%o', comicheft);
@@ -90,12 +90,12 @@ export class ComicheftWriteService {
     }
 
     /**
-     * Ein vorhandenes Buch soll aktualisiert werden.
-     * @param comicheft Das zu aktualisierende Buch
-     * @param id ID des zu aktualisierenden Buchs
+     * Ein vorhandenes Comicheft soll aktualisiert werden.
+     * @param comicheft Das zu aktualisierende Comicheft
+     * @param id ID des zu aktualisierenden Comichefts
      * @param version Die Versionsnummer für optimistische Synchronisation
      * @returns Die neue Versionsnummer gemäß optimistischer Synchronisation
-     *  oder im Fehlerfall [UpdateError](../types/buch_service_errors.UpdateError.html)
+     *  oder im Fehlerfall [UpdateError](../types/comicheft_service_errors.UpdateError.html)
      */
     // https://2ality.com/2015/01/es6-destructuring.html#simulating-named-parameters-in-javascript
     async update({
@@ -134,10 +134,10 @@ export class ComicheftWriteService {
     }
 
     /**
-     * Ein Buch wird asynchron anhand seiner ID gelöscht.
+     * Ein Comicheft wird asynchron anhand seiner ID gelöscht.
      *
-     * @param id ID des zu löschenden Buches
-     * @returns true, falls das Buch vorhanden war und gelöscht wurde. Sonst false.
+     * @param id ID des zu löschenden Comicheftes
+     * @returns true, falls das Comicheft vorhanden war und gelöscht wurde. Sonst false.
      */
     async delete(id: number) {
         this.#logger.debug('delete: id=%d', id);
@@ -151,7 +151,7 @@ export class ComicheftWriteService {
 
         let deleteResult: DeleteResult | undefined;
         await this.#repo.manager.transaction(async (transactionalMgr) => {
-            // Das Buch zur gegebenen ID mit Titel und Abb. asynchron loeschen
+            // Das Comicheft zur gegebenen ID mit Titel und Abb. asynchron loeschen
 
             // TODO "cascade" funktioniert nicht beim Loeschen
             const titelId = comicheft.titel?.id;

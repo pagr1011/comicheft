@@ -29,9 +29,9 @@ import { Titel } from '../entity/titel.entity.js';
 import { getLogger } from '../../logger/logger.js';
 import { typeOrmModuleOptions } from '../../config/db.js';
 
-/** Typdefinitionen für die Suche mit der Buch-ID. */
+/** Typdefinitionen für die Suche mit der Comicheft-ID. */
 export interface BuildIdParams {
-    /** ID des gesuchten Buchs. */
+    /** ID des gesuchten Comichefts. */
     id: number;
     /** Sollen die Abbildungen mitgeladen werden? */
     mitAbbildungen?: boolean;
@@ -63,12 +63,14 @@ export class QueryBuilder {
     }
 
     /**
-     * Ein Buch mit der ID suchen.
-     * @param id ID des gesuchten Buches
+     * Ein Comicheft mit der ID suchen.
+     * @param id ID des gesuchten Comicheftes
      * @returns QueryBuilder
      */
     buildId({ id, mitAbbildungen = false }: BuildIdParams) {
-        const queryBuilder = this.#repo.createQueryBuilder(this.#comicheftAlias);
+        const queryBuilder = this.#repo.createQueryBuilder(
+            this.#comicheftAlias,
+        );
         queryBuilder.innerJoinAndSelect(
             `${this.#comicheftAlias}.titel`,
             this.#titelAlias,
@@ -93,12 +95,15 @@ export class QueryBuilder {
         this.#logger.debug('build: suchkriterien=%o', suchkriterien);
 
         let queryBuilder = this.#repo.createQueryBuilder(this.#comicheftAlias);
-        queryBuilder.innerJoinAndSelect(`${this.#comicheftAlias}.titel`, 'titel');
+        queryBuilder.innerJoinAndSelect(
+            `${this.#comicheftAlias}.titel`,
+            'titel',
+        );
 
-        // z.B. { titel: 'a', rating: 5, javascript: true }
+        // z.B. { titel: 'a', rating: 5, batman: true }
         // "rest properties" fuer anfaengliche WHERE-Klausel: ab ES 2018 https://github.com/tc39/proposal-object-rest-spread
         // type-coverage:ignore-next-line
-        const { titel, javascript, typescript, ...props } = suchkriterien;
+        const { titel, batman, ironman, ...props } = suchkriterien;
 
         let useWhere = true;
 
@@ -115,24 +120,24 @@ export class QueryBuilder {
             useWhere = false;
         }
 
-        if (javascript === 'true') {
+        if (batman === 'true') {
             queryBuilder = useWhere
                 ? queryBuilder.where(
-                      `${this.#comicheftAlias}.schlagwoerter like '%JAVASCRIPT%'`,
+                      `${this.#comicheftAlias}.schlagwoerter like '%BATMAN%'`,
                   )
                 : queryBuilder.andWhere(
-                      `${this.#comicheftAlias}.schlagwoerter like '%JAVASCRIPT%'`,
+                      `${this.#comicheftAlias}.schlagwoerter like '%BATMAN%'`,
                   );
             useWhere = false;
         }
 
-        if (typescript === 'true') {
+        if (ironman === 'true') {
             queryBuilder = useWhere
                 ? queryBuilder.where(
-                      `${this.#comicheftAlias}.schlagwoerter like '%TYPESCRIPT%'`,
+                      `${this.#comicheftAlias}.schlagwoerter like '%IRONMAN%'`,
                   )
                 : queryBuilder.andWhere(
-                      `${this.#comicheftAlias}.schlagwoerter like '%TYPESCRIPT%'`,
+                      `${this.#comicheftAlias}.schlagwoerter like '%IRONMAN%'`,
                   );
             useWhere = false;
         }

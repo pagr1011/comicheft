@@ -91,7 +91,7 @@ export class ComicheftDtoOhneRef {
 
     @IsOptional()
     @ArrayUnique()
-    @ApiProperty({ example: ['JAVASCRIPT', 'TYPESCRIPT'] })
+    @ApiProperty({ example: ['BATMAN', 'IRONMAN'] })
     readonly schlagwoerter: string[] | undefined;
 }
 

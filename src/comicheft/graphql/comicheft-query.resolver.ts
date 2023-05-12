@@ -59,13 +59,13 @@ export class ComicheftQueryResolver {
     }
 
     @Query()
-    async buecher(@Args() titel: { titel: string } | undefined) {
+    async comichefte(@Args() titel: { titel: string } | undefined) {
         const titelStr = titel?.titel;
         this.#logger.debug('find: titel=%s', titelStr);
         const suchkriterium = titelStr === undefined ? {} : { titel: titelStr };
         const comichefte = await this.#service.find(suchkriterium);
         if (comichefte.length === 0) {
-            throw new BadUserInputError('Es wurden keine Buecher gefunden.');
+            throw new BadUserInputError('Es wurden keine Comichefte gefunden.');
         }
 
         const comichefteDTO = comichefte.map((comicheft) =>

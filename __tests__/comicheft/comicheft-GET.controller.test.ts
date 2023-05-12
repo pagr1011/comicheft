@@ -42,7 +42,7 @@ describe('GET /rest', () => {
 
     test('Alle Comichefte', async () => {
         // when
-        const response: AxiosResponse<ComichefteModel> = await client.get('/');
+        const response: AxiosResponse<ComichefteModel> = await client.get('');
 
         // then
         const { status, headers, data } = response;
@@ -51,13 +51,15 @@ describe('GET /rest', () => {
         expect(headers['content-type']).toMatch(/json/iu);
         expect(data).toBeDefined();
 
+        // eslint-disable-next-line no-underscore-dangle
         const { comichefte } = data._embedded;
 
         comichefte
+            // eslint-disable-next-line no-underscore-dangle
             .map((comicheft) => comicheft._links.self.href)
             .forEach((selfLink) => {
                 // eslint-disable-next-line security/detect-non-literal-regexp, security-node/non-literal-reg-expr
-                expect(selfLink).toMatch(new RegExp(`^${baseURL}`, 'u'));
+                expect(selfLink).toMatch(new RegExp(`^${baseURL}`, 'iu'));
             });
     });
 
@@ -77,6 +79,7 @@ describe('GET /rest', () => {
         expect(headers['content-type']).toMatch(/json/iu);
         expect(data).toBeDefined();
 
+        // eslint-disable-next-line no-underscore-dangle
         const { comichefte } = data._embedded;
 
         // Jedes Comicheft hat einen Titel mit dem Teilstring 'a'
@@ -122,6 +125,7 @@ describe('GET /rest', () => {
         // JSON-Array mit mind. 1 JSON-Objekt
         expect(data).toBeDefined();
 
+        // eslint-disable-next-line no-underscore-dangle
         const { comichefte } = data._embedded;
 
         // Jedes Comicheft hat im Array der Schlagwoerter z.B. "spiderman"

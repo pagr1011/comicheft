@@ -23,7 +23,7 @@ const geaendertesComicheft: ComicheftDtoOhneRef = {
     lieferbar: true,
     datum: '2022-03-03',
     homepage: 'https://geaendert.put.rest',
-    schlagwoerter: ['JAVASCRIPT'],
+    schlagwoerter: ['BATMAN'],
 };
 const idVorhanden = '30';
 
@@ -36,7 +36,7 @@ const geaendertesComicheftIdNichtVorhanden: ComicheftDtoOhneRef = {
     lieferbar: true,
     datum: '2022-02-04',
     homepage: 'https://acme.de',
-    schlagwoerter: ['JAVASCRIPT'],
+    schlagwoerter: ['BATMAN'],
 };
 const idNichtVorhanden = '999999';
 
@@ -61,7 +61,7 @@ const veraltesComicheft: ComicheftDtoOhneRef = {
     lieferbar: true,
     datum: '2022-02-04',
     homepage: 'https://acme.de',
-    schlagwoerter: ['JAVASCRIPT'],
+    schlagwoerter: ['BATMAN'],
 };
 
 // -----------------------------------------------------------------------------

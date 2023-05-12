@@ -24,7 +24,7 @@ const neuesComicheft: ComicheftDTO = {
     lieferbar: true,
     datum: '2022-02-28',
     homepage: 'https://post.rest',
-    schlagwoerter: ['JAVASCRIPT', 'TYPESCRIPT'],
+    schlagwoerter: ['BATMAN', 'IRONMAN'],
     titel: {
         titel: 'Titelpost',
         untertitel: 'untertitelpost',
@@ -59,7 +59,7 @@ const neuesComicheftIsbnExistiert: ComicheftDTO = {
     lieferbar: true,
     datum: '2022-02-28',
     homepage: 'https://post.isbn/',
-    schlagwoerter: ['JAVASCRIPT', 'TYPESCRIPT'],
+    schlagwoerter: ['BATMAN', 'IRONMAN'],
     titel: {
         titel: 'Titelpostisbn',
         untertitel: 'Untertitelpostisbn',

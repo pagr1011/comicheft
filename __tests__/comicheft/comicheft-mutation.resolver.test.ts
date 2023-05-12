@@ -61,7 +61,7 @@ describe('GraphQL Mutations', () => {
                             lieferbar: true,
                             datum: "2022-02-28",
                             homepage: "https://create.mutation",
-                            schlagwoerter: ["JAVASCRIPT", "TYPESCRIPT"],
+                            schlagwoerter: ["BATMAN", "IRONMAN"],
                             titel: {
                                 titel: "Titelcreatemutation",
                                 untertitel: "untertitelcreatemutation"
@@ -94,7 +94,9 @@ describe('GraphQL Mutations', () => {
 
         // Der Wert der Mutation ist die generierte ObjectID
         expect(create).toBeDefined();
-        expect(ComicheftReadService.ID_PATTERN.test(create as string)).toBe(true);
+        expect(ComicheftReadService.ID_PATTERN.test(create as string)).toBe(
+            true,
+        );
     });
 
     // -------------------------------------------------------------------------
@@ -182,7 +184,7 @@ describe('GraphQL Mutations', () => {
                             lieferbar: true,
                             datum: "2021-01-31",
                             homepage: "http://acme.com",
-                            schlagwoerter: ["JAVASCRIPT"]
+                            schlagwoerter: ["BATMAN"]
                             titel: {
                                 titel: "Titelcreatemutation",
                                 untertitel: "untertitelcreatemutation"
@@ -238,7 +240,7 @@ describe('GraphQL Mutations', () => {
                             lieferbar: false,
                             datum: "2021-04-04",
                             homepage: "https://update.mutation"
-                            schlagwoerter: ["JAVASCRIPT", "TYPESCRIPT"],
+                            schlagwoerter: ["BATMAN", "IRONMAN"],
                         }
                     )
                 }
@@ -287,7 +289,7 @@ describe('GraphQL Mutations', () => {
                             lieferbar: false,
                             datum: "12345-123-123",
                             homepage: "anyHomepage",
-                            schlagwoerter: ["JAVASCRIPT", "TYPESCRIPT"]
+                            schlagwoerter: ["BATMAN", "IRONMAN"]
                         }
                     )
                 }
@@ -353,7 +355,7 @@ describe('GraphQL Mutations', () => {
                             lieferbar: false,
                             datum: "2021-01-02",
                             homepage: "https://acme.com",
-                            schlagwoerter: ["JAVASCRIPT", "TYPESCRIPT"]
+                            schlagwoerter: ["BATMAN", "IRONMAN"]
                         }
                     )
                 }
