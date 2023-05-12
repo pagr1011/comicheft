@@ -26,7 +26,7 @@ describe('DELETE /rest/comichefte', () => {
     // Testserver starten und dabei mit der DB verbinden
     beforeAll(async () => {
         await startServer();
-        const baseURL = `https://${host}:${port}/rest`;
+        const baseURL = `https://${host}:${port}`;
         client = axios.create({
             baseURL,
             httpsAgent,
@@ -40,7 +40,7 @@ describe('DELETE /rest/comichefte', () => {
 
     test('Vorhandenes Comicheft loeschen', async () => {
         // given
-        const url = `/${id}`;
+        const url = `/rest/${id}`;
         const token = await loginRest(client);
         const headers: Record<string, string> = {
             Authorization: `Bearer ${token}`, // eslint-disable-line @typescript-eslint/naming-convention
@@ -60,7 +60,7 @@ describe('DELETE /rest/comichefte', () => {
 
     test('Comicheft loeschen, ohne Token', async () => {
         // given
-        const url = `/${id}`;
+        const url = `/rest/${id}`;
 
         // when
         const response: AxiosResponse<Record<string, any>> =
@@ -75,7 +75,7 @@ describe('DELETE /rest/comichefte', () => {
 
     test('Comicheft loeschen, mit falschem Token', async () => {
         // given
-        const url = `/${id}`;
+        const url = `/rest/${id}`;
         const token = 'FALSCH';
         const headers: Record<string, string> = {
             Authorization: `Bearer ${token}`, // eslint-disable-line @typescript-eslint/naming-convention

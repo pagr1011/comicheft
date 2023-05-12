@@ -15,8 +15,8 @@ import { HttpStatus } from '@nestjs/common';
 // -----------------------------------------------------------------------------
 const titelVorhanden = 'a';
 const titelNichtVorhanden = 'xx';
-const schlagwortVorhanden = 'spiderman';
-const schlagwortNichtVorhanden = 'batman';
+const schlagwortVorhanden = 'batman';
+const schlagwortNichtVorhanden = 'spiderman';
 
 // -----------------------------------------------------------------------------
 // T e s t s
